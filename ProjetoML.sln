@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoML.Lib", "ProjetoML.Lib\ProjetoML.Lib.csproj", "{3E64420A-B448-4ABC-A644-9AE59AD039B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoML.Web", "ProjetoML.Web\ProjetoML.Web.csproj", "{EE409095-335F-4982-B9F3-E36B6CA9DDC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +14,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E64420A-B448-4ABC-A644-9AE59AD039B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E64420A-B448-4ABC-A644-9AE59AD039B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E64420A-B448-4ABC-A644-9AE59AD039B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E64420A-B448-4ABC-A644-9AE59AD039B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE409095-335F-4982-B9F3-E36B6CA9DDC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE409095-335F-4982-B9F3-E36B6CA9DDC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE409095-335F-4982-B9F3-E36B6CA9DDC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE409095-335F-4982-B9F3-E36B6CA9DDC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

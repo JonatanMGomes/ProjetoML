@@ -1,4 +1,4 @@
-namespace ProjetoML.Lib
+namespace ProjetoML.Lib.Models
 {
     public class Transportadora
     {
@@ -6,5 +6,7 @@ namespace ProjetoML.Lib
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
+        public int IdPedido { get; set; }
+        public List<Pedido> Pedidos { get; set; }
     }
 }

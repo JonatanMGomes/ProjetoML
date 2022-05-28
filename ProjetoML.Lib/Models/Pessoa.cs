@@ -1,4 +1,4 @@
-namespace ProjetoML.Lib
+namespace ProjetoML.Lib.Models
 {
     public class Pessoa
     {
