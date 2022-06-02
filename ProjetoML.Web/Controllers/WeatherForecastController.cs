@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProjetoML.Lib.Data;
 
 namespace ProjetoML.Web.Controllers;
 
@@ -12,10 +13,12 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly MLContext _mlContext;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, MLContext mLContext)
     {
         _logger = logger;
+        _mlContext = mLContext;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -28,5 +31,18 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("Get Usuario por id")]
+    public IActionResult GetUsuarioPeloId(int id)
+    {
+        var usuarioDesejado = _mlContext.Usuarios.Find(id);
+        return Ok(usuarioDesejado);
+    }
+        [HttpGet("Get Usuarios")]
+    public IActionResult GetUsuarios()
+    {
+        var usuarios = _mlContext.Usuarios.ToList();
+        return Ok(usuarios);
     }
 }
