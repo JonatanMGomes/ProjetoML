@@ -9,7 +9,6 @@ namespace ProjetoML.Lib.Models
         public int IdUsuario { get; set; }
         public Transportadora Transportadora { get; set; }
         public Usuario Usuario { get; set; }
-        public int IdProdutosPedidos { get; set; }
         public List<ProdutoPedido> ProdutosPedidos { get; set; }
     }
 }

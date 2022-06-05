@@ -9,7 +9,6 @@
         public DateTime DataCadastro { get; set; }
         public int IdVendedor { get; set; }
         public Vendedor Vendedor { get; set; }
-        public int IdProdutosPedidos { get; set; }
         public List<ProdutoPedido> ProdutosPedidos { get; set; }
     }
 }
