@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
+using ProjetoML.Web.DTOs;
 
 namespace ProjetoML.Web.Controllers
 {
@@ -16,8 +17,10 @@ namespace ProjetoML.Web.Controllers
             _mlContext = mLContext;
         }
         [HttpPost("Adicionar Usuario")]
-        public IActionResult AddUsuario(Usuario usuarioNovo)
+        public IActionResult AddUsuario(UsuarioDTO usuarioDTO)
         {
+            var usuarioNovo = new Usuario(usuarioDTO.Id, usuarioDTO.Nome, usuarioDTO.Email, usuarioDTO.CPF, usuarioDTO.DataNascimento,
+                                          usuarioDTO.Senha);
             _mlContext.Usuarios.Add(usuarioNovo);
             _mlContext.SaveChanges();
             return Ok(_mlContext.Usuarios);

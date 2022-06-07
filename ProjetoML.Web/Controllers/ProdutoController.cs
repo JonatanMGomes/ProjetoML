@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
+using ProjetoML.Web.DTOs;
 
 namespace ProjetoML.Web.Controllers
 {
@@ -16,8 +17,10 @@ namespace ProjetoML.Web.Controllers
             _mlContext = mLContext;
         }
         [HttpPost("Adicionar Produto")]
-        public IActionResult AddProduto(Produto produtoNovo)
+        public IActionResult AddProduto(ProdutoDTO produtoDTO)
         {
+            var produtoNovo = new Produto(produtoDTO.Id, produtoDTO.Nome, produtoDTO.Descricao, produtoDTO.Valor,
+                                          produtoDTO.DataCadastro, produtoDTO.IdVendedor);
             _mlContext.Produtos.Add(produtoNovo);
             _mlContext.SaveChanges();
             return Ok(_mlContext.Produtos);

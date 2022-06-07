@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
+using ProjetoML.Web.DTOs;
 
 namespace ProjetoML.Web.Controllers
 {
@@ -16,8 +17,10 @@ namespace ProjetoML.Web.Controllers
             _mlContext = mLContext;
         }
         [HttpPost("Adicionar Transportadora")]
-        public IActionResult AddTransportadora(Transportadora transportadoraNova)
+        public IActionResult AddTransportadora(TransportadoraDTO transportadoraDTO)
         {
+            var transportadoraNova = new Transportadora(transportadoraDTO.Id, transportadoraDTO.Nome, transportadoraDTO.Telefone,
+                                                        transportadoraDTO.Email);
             _mlContext.Transportadoras.Add(transportadoraNova);
             _mlContext.SaveChanges();
             return Ok(_mlContext.Transportadoras);

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
+using ProjetoML.Web.DTOs;
 
 namespace ProjetoML.Web.Controllers
 {
@@ -16,8 +17,10 @@ namespace ProjetoML.Web.Controllers
             _mlContext = mLContext;
         }
         [HttpPost("Adicionar Vendedor")]
-        public IActionResult AddVendedor(Vendedor vendedorNovo)
+        public IActionResult AddVendedor(VendedorDTO vendedorDTO)
         {
+            var vendedorNovo = new Vendedor(vendedorDTO.Id, vendedorDTO.Nome, vendedorDTO.Email, vendedorDTO.CNPJ,
+                                            vendedorDTO.DataCadastro);
             _mlContext.Vendedores.Add(vendedorNovo);
             _mlContext.SaveChanges();
             return Ok(_mlContext.Vendedores);
@@ -37,7 +40,7 @@ namespace ProjetoML.Web.Controllers
         [HttpPut("Alterando CNPJ do Vendedor desejado")]
         public IActionResult PutCNPJDoVendedorDesejado(int id, string cnpjNovo)
         {
-            _mlContext.Vendedores.Find(id).CNPJ = cnpjNovo;
+            _mlContext.Vendedores.Find(id).Cnpj = cnpjNovo;
             _mlContext.SaveChanges();
             return Ok(_mlContext.Vendedores);
         }
