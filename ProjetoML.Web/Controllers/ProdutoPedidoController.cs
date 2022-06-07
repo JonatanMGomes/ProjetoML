@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
@@ -27,13 +28,13 @@ namespace ProjetoML.Web.Controllers
         [HttpGet("Get ProdutoPedido por id")]
         public IActionResult GetProdutoPedidoPeloId(int id)
         {
-            var produtoPedidoDesejado = _mlContext.ProdutosPedidos.Find(id);
+            var produtoPedidoDesejado = _mlContext.ProdutosPedidos.AsNoTracking().First(x => x.Id == id);
             return Ok(produtoPedidoDesejado);
         }
         [HttpGet("Get ProdutosPedidos")]
         public IActionResult GetProdutosPedidos()
         {
-            var produtosPedidos = _mlContext.ProdutosPedidos.ToList();
+            var produtosPedidos = _mlContext.ProdutosPedidos.Include(x => x.Pedido).AsNoTracking().ToList();
             return Ok(produtosPedidos);
         }
         [HttpPut("Alterando Produto da ProdutoPedido desejada")]

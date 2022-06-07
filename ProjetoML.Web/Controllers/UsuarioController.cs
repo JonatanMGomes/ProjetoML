@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
@@ -28,13 +29,13 @@ namespace ProjetoML.Web.Controllers
         [HttpGet("Get Usuario por id")]
         public IActionResult GetUsuarioPeloId(int id)
         {
-            var usuarioDesejado = _mlContext.Usuarios.Find(id);
+            var usuarioDesejado = _mlContext.Usuarios.AsNoTracking().First(x => x.Id == id);
             return Ok(usuarioDesejado);
         }
         [HttpGet("Get Usuarios")]
         public IActionResult GetUsuarios()
         {
-            var usuarios = _mlContext.Usuarios.ToList();
+            var usuarios = _mlContext.Usuarios.Include(x => x.Pedidos).AsNoTracking().ToList();
             return Ok(usuarios);
         }
         [HttpPut("Alterando senha do Usuario desejado")]

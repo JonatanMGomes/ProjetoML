@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
@@ -28,13 +29,13 @@ namespace ProjetoML.Web.Controllers
         [HttpGet("Get Transportadora por id")]
         public IActionResult GetTransportadoraPeloId(int id)
         {
-            var transportadoraDesejada = _mlContext.Transportadoras.Find(id);
+            var transportadoraDesejada = _mlContext.Transportadoras.AsNoTracking().First(x => x.Id == id);
             return Ok(transportadoraDesejada);
         }
         [HttpGet("Get Transportadoras")]
         public IActionResult GetTransportadoras()
         {
-            var transportadoras = _mlContext.Transportadoras.ToList();
+            var transportadoras = _mlContext.Transportadoras.Include(x => x.Pedidos).AsNoTracking().ToList();
             return Ok(transportadoras);
         }
         [HttpPut("Alterando nome da Transportadora desejada")]
