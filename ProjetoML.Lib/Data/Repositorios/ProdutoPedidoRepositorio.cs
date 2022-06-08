@@ -1,11 +1,11 @@
+using ProjetoML.Lib.Models;
+
 namespace ProjetoML.Lib.Data.Repositorios
 {
-    public class ProdutoPedidoRepositorio
+    public class ProdutoPedidoRepositorio : RepositorioBase<ProdutoPedido>
     {
-        private readonly MLContext _context;
-        public ProdutoPedidoRepositorio(MLContext context)
+        public ProdutoPedidoRepositorio(MLContext context) : base(context, context.ProdutosPedidos)
         {
-            _context = context;
         }
     }
 }

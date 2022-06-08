@@ -1,8 +1,7 @@
 namespace ProjetoML.Lib.Models
 {
-    public class Pedido
+    public class Pedido : ModelBase
     {
-        public int Id { get; set; }
         public DateTime DataPedido { get; set; }
         public string Status { get; set; }
         public int IdTransportadora { get; set; }
@@ -10,9 +9,8 @@ namespace ProjetoML.Lib.Models
         public virtual Transportadora Transportadora { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual List<ProdutoPedido> ProdutosPedidos { get; set; }
-        public Pedido(int id, DateTime dataPedido, string status, int idTransportadora, int idUsuario)
+        public Pedido(int id, DateTime dataPedido, string status, int idTransportadora, int idUsuario) : base(id)
         {
-            Id = id;
             DataPedido = dataPedido;
             Status = status;
             IdTransportadora = idTransportadora;
