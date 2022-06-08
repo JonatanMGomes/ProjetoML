@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
+using ProjetoML.Lib.Data.Repositorios;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -11,47 +12,41 @@ namespace ProjetoML.Web.Controllers
     public class UsuarioController : ControllerBase
     {
         public ILogger<UsuarioController> _log { get; set; }
-        private readonly MLContext _mlContext;
-        public UsuarioController(ILogger<UsuarioController> log, MLContext mLContext)
+        private readonly UsuarioRepositorio _repositorio;
+        public UsuarioController(ILogger<UsuarioController> log, UsuarioRepositorio repositorio)
         {
             _log = log;
-            _mlContext = mLContext;
+            _repositorio = repositorio;
         }
         [HttpPost("Adicionar Usuario")]
         public IActionResult AddUsuario(UsuarioDTO usuarioDTO)
         {
             var usuarioNovo = new Usuario(usuarioDTO.Id, usuarioDTO.Nome, usuarioDTO.Email, usuarioDTO.CPF, usuarioDTO.DataNascimento,
                                           usuarioDTO.Senha);
-            _mlContext.Usuarios.Add(usuarioNovo);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Usuarios);
+            _repositorio.Adicionar(usuarioNovo);
+            return Ok();
         }
         [HttpGet("Get Usuario por id")]
         public IActionResult GetUsuarioPeloId(int id)
         {
-            var usuarioDesejado = _mlContext.Usuarios.AsNoTracking().First(x => x.Id == id);
-            return Ok(usuarioDesejado);
+            return Ok(_repositorio.BuscarPorId(id));
         }
         [HttpGet("Get Usuarios")]
         public IActionResult GetUsuarios()
         {
-            var usuarios = _mlContext.Usuarios.Include(x => x.Pedidos).AsNoTracking().ToList();
-            return Ok(usuarios);
+            return Ok(_repositorio.BuscarTodos());
         }
         [HttpPut("Alterando senha do Usuario desejado")]
         public IActionResult PutSenhaDoUsuarioDesejado(int id, string senhaNova)
         {
-            _mlContext.Usuarios.Find(id).Senha = senhaNova;
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Usuarios);
+            _repositorio.AlterarSenhaUsuario(id, senhaNova);
+            return Ok();
         }
         [HttpDelete("Deletar Usuario por id")]
         public IActionResult DeleteUsuarioPeloId(int id)
         {
-            var usuarioASerRemovido = _mlContext.Usuarios.Find(id);
-            _mlContext.Usuarios.Remove(usuarioASerRemovido);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Usuarios);
+           _repositorio.DeletarItemDesejado(id);
+            return Ok();
         }
     }
 }

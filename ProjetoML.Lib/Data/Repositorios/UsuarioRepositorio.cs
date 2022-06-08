@@ -7,5 +7,9 @@ namespace ProjetoML.Lib.Data.Repositorios
         public UsuarioRepositorio(MLContext context) : base(context, context.Usuarios)
         {
         }
+        public void AlterarSenhaUsuario(int id, string senhaNova)
+        {
+            _dbSet.Find(id).Senha = senhaNova;
+        }
     }
 }

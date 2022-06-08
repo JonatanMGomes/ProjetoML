@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
+using ProjetoML.Lib.Data.Repositorios;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -11,47 +12,41 @@ namespace ProjetoML.Web.Controllers
     public class VendedorController : ControllerBase
     {
         public ILogger<VendedorController> _log { get; set; }
-        private readonly MLContext _mlContext;
-        public VendedorController(ILogger<VendedorController> log, MLContext mLContext)
+        private readonly VendedorRepositorio _repositorio;
+        public VendedorController(ILogger<VendedorController> log, VendedorRepositorio repositorio)
         {
             _log = log;
-            _mlContext = mLContext;
+            _repositorio = repositorio;
         }
         [HttpPost("Adicionar Vendedor")]
         public IActionResult AddVendedor(VendedorDTO vendedorDTO)
         {
             var vendedorNovo = new Vendedor(vendedorDTO.Id, vendedorDTO.Nome, vendedorDTO.Email, vendedorDTO.CNPJ,
                                             vendedorDTO.DataCadastro);
-            _mlContext.Vendedores.Add(vendedorNovo);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Vendedores);
+            _repositorio.Adicionar(vendedorNovo);
+            return Ok();
         }
         [HttpGet("Get Vendedor por id")]
         public IActionResult GetVendedorPeloId(int id)
         {
-            var vendedorDesejado = _mlContext.Vendedores.AsNoTracking().First(x => x.Id == id);
-            return Ok(vendedorDesejado);
+            return Ok(_repositorio.BuscarPorId(id));
         }
         [HttpGet("Get Vendedores")]
         public IActionResult GetVendedores()
         {
-            var vendedores = _mlContext.Vendedores.Include(x => x.Produtos).AsNoTracking().ToList();
-            return Ok(vendedores);
+            return Ok(_repositorio.BuscarTodos());
         }
         [HttpPut("Alterando CNPJ do Vendedor desejado")]
         public IActionResult PutCNPJDoVendedorDesejado(int id, string cnpjNovo)
         {
-            _mlContext.Vendedores.Find(id).Cnpj = cnpjNovo;
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Vendedores);
+            _repositorio.AlterarCnpjVendedor(id, cnpjNovo);
+            return Ok();
         }
         [HttpDelete("Deletar Vendedor por id")]
         public IActionResult DeleteVendedorPeloId(int id)
         {
-            var vendedorASerRemovido = _mlContext.Vendedores.Find(id);
-            _mlContext.Vendedores.Remove(vendedorASerRemovido);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Vendedores);
+            _repositorio.DeletarItemDesejado(id);
+            return Ok();
         }
     }
 }

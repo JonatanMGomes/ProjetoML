@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
+using ProjetoML.Lib.Data.Repositorios;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -11,47 +12,41 @@ namespace ProjetoML.Web.Controllers
     public class PedidoController : ControllerBase
     {
         public ILogger<PedidoController> _log { get; set; }
-        private readonly MLContext _mlContext;
-        public PedidoController(ILogger<PedidoController> log, MLContext mLContext)
+        private readonly PedidoRepositorio _repositorio;
+        public PedidoController(ILogger<PedidoController> log, PedidoRepositorio repositorio)
         {
             _log = log;
-            _mlContext = mLContext;
+            _repositorio = repositorio;
         }
         [HttpPost("Adicionar Pedido")]
         public IActionResult AddPedido(PedidoDTO pedidoDTO)
         {
             var pedidoNovo = new Pedido(pedidoDTO.Id, pedidoDTO.DataPedido, pedidoDTO.Status, pedidoDTO.IdTransportadora,
                                         pedidoDTO.IdUsuario);
-            _mlContext.Pedidos.Add(pedidoNovo);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Pedidos);
+            _repositorio.Adicionar(pedidoNovo);
+            return Ok();
         }
         [HttpGet("Get Pedido por id")]
         public IActionResult GetPedidoPeloId(int id)
         {
-            var pedidoDesejado = _mlContext.Pedidos.AsNoTracking().First(x => x.Id == id);
-            return Ok(pedidoDesejado);
+            return Ok(_repositorio.BuscarPorId(id));
         }
         [HttpGet("Get Pedidos")]
         public IActionResult GetPedidos()
         {
-            var pedidos = _mlContext.Pedidos.Include(x => x.Transportadora).AsNoTracking().ToList();
-            return Ok(pedidos);
+            return Ok(_repositorio.BuscarTodos());
         }
         [HttpPut("Alterando status do Pedido desejado")]
         public IActionResult PutStatusDoPedidoDesejado(int id, string statusNovo)
         {
-            _mlContext.Pedidos.Find(id).Status = statusNovo;
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Pedidos);
+            _repositorio.AlterarStatusPedido(id, statusNovo);
+            return Ok();
         }
         [HttpDelete("Deletar Pedido por id")]
         public IActionResult DeletePedidoPeloId(int id)
         {
-            var pedidoASerRemovido = _mlContext.Pedidos.Find(id);
-            _mlContext.Pedidos.Remove(pedidoASerRemovido);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Pedidos);
+            _repositorio.DeletarItemDesejado(id);
+            return Ok();
         }
     }
 }

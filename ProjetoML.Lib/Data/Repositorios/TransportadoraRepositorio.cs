@@ -7,5 +7,9 @@ namespace ProjetoML.Lib.Data.Repositorios
         public TransportadoraRepositorio(MLContext context) : base(context, context.Transportadoras)
         {
         }
+        public void AlterarNomeTransportadora(int id, string nomeNovo)
+        {
+            _dbSet.Find(id).Nome = nomeNovo;
+        }
     }
 }

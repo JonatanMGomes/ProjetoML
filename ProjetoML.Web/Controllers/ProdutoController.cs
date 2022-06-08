@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data;
+using ProjetoML.Lib.Data.Repositorios;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -11,47 +12,42 @@ namespace ProjetoML.Web.Controllers
     public class ProdutoController : ControllerBase
     {
         public ILogger<ProdutoController> _log { get; set; }
-        private readonly MLContext _mlContext;
-        public ProdutoController(ILogger<ProdutoController> log, MLContext mLContext)
+        private readonly ProdutoRepositorio _repositorio;
+        public ProdutoController(ILogger<ProdutoController> log, ProdutoRepositorio repositorio)
         {
             _log = log;
-            _mlContext = mLContext;
+            _repositorio = repositorio;
         }
         [HttpPost("Adicionar Produto")]
         public IActionResult AddProduto(ProdutoDTO produtoDTO)
         {
             var produtoNovo = new Produto(produtoDTO.Id, produtoDTO.Nome, produtoDTO.Descricao, produtoDTO.Valor,
                                           produtoDTO.DataCadastro, produtoDTO.IdVendedor);
-            _mlContext.Produtos.Add(produtoNovo);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Produtos);
+            _repositorio.Adicionar(produtoNovo);
+            return Ok();
         }
         [HttpGet("Get Produto por id")]
         public IActionResult GetProdutoPeloId(int id)
         {
-            var produtoDesejado = _mlContext.Produtos.AsNoTracking().First(x => x.Id == id);
-            return Ok(produtoDesejado);
+            return Ok(_repositorio.BuscarPorId(id));
+
         }
         [HttpGet("Get Produtos")]
         public IActionResult GetProdutos()
         {
-            var produtos = _mlContext.Produtos.Include(x => x.Vendedor).AsNoTracking().ToList();
-            return Ok(produtos);
+            return Ok(_repositorio.BuscarTodos());
         }
         [HttpPut("Alterando nome do Produto desejado")]
         public IActionResult PutNomeDoProdutoDesejado(int id, string nomeNovo)
         {
-            _mlContext.Produtos.Find(id).Nome = nomeNovo;
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Produtos);
+            _repositorio.AlterarNomeProduto(id, nomeNovo);
+            return Ok();
         }
         [HttpDelete("Deletar Produto por id")]
         public IActionResult DeleteProdutoPeloId(int id)
         {
-            var produtoASerRemovido = _mlContext.Produtos.Find(id);
-            _mlContext.Produtos.Remove(produtoASerRemovido);
-            _mlContext.SaveChanges();
-            return Ok(_mlContext.Produtos);
+            _repositorio.DeletarItemDesejado(id);
+            return Ok();
         }
     }
 }

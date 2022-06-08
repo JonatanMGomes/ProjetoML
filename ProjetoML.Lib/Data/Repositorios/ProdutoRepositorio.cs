@@ -7,5 +7,9 @@ namespace ProjetoML.Lib.Data.Repositorios
         public ProdutoRepositorio(MLContext context) : base(context, context.Produtos)
         {
         }
+        public void AlterarNomeProduto(int id, string nomeNovo)
+        {
+            _dbSet.Find(id).Nome = nomeNovo;
+        }
     }
 }
