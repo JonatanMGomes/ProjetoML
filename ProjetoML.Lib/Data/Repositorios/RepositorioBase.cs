@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 using ProjetoML.Lib.Models;
 
 namespace ProjetoML.Lib.Data.Repositorios
 {
-    public class RepositorioBase<T> where T : ModelBase
+    public class RepositorioBase<T> : IRepositorioBase<T> where T : ModelBase
     {
         protected readonly MLContext _context;
         protected readonly DbSet<T> _dbSet;

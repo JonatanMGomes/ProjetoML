@@ -1,6 +1,7 @@
 using ProjetoML.Lib.Data;
 using Microsoft.EntityFrameworkCore;
 using ProjetoML.Lib.Data.Repositorios;
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +14,12 @@ builder.Services.AddDbContext<MLContext>(
 builder.Services.AddControllers()
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-builder.Services.AddScoped<PedidoRepositorio>();
-builder.Services.AddScoped<ProdutoRepositorio>();
-builder.Services.AddScoped<ProdutoPedidoRepositorio>();
-builder.Services.AddScoped<TransportadoraRepositorio>();
-builder.Services.AddScoped<UsuarioRepositorio>();
-builder.Services.AddScoped<VendedorRepositorio>();
+builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
+builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+builder.Services.AddScoped<IProdutoPedidoRepositorio, ProdutoPedidoRepositorio>();
+builder.Services.AddScoped<ITransportadoraRepositorio, TransportadoraRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IVendedorRepositorio, VendedorRepositorio>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

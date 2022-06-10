@@ -1,8 +1,9 @@
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 using ProjetoML.Lib.Models;
 
 namespace ProjetoML.Lib.Data.Repositorios
 {
-    public class ProdutoPedidoRepositorio : RepositorioBase<ProdutoPedido>
+    public class ProdutoPedidoRepositorio : RepositorioBase<ProdutoPedido>, IProdutoPedidoRepositorio
     {
         public ProdutoPedidoRepositorio(MLContext context) : base(context, context.ProdutosPedidos)
         {
