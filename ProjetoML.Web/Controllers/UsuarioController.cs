@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjetoML.Lib.Data;
-using ProjetoML.Lib.Data.Repositorios;
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -12,8 +10,8 @@ namespace ProjetoML.Web.Controllers
     public class UsuarioController : ControllerBase
     {
         public ILogger<UsuarioController> _log { get; set; }
-        private readonly UsuarioRepositorio _repositorio;
-        public UsuarioController(ILogger<UsuarioController> log, UsuarioRepositorio repositorio)
+        private readonly IUsuarioRepositorio _repositorio;
+        public UsuarioController(ILogger<UsuarioController> log, IUsuarioRepositorio repositorio)
         {
             _log = log;
             _repositorio = repositorio;

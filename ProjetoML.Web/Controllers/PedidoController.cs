@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjetoML.Lib.Data;
-using ProjetoML.Lib.Data.Repositorios;
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -12,8 +10,8 @@ namespace ProjetoML.Web.Controllers
     public class PedidoController : ControllerBase
     {
         public ILogger<PedidoController> _log { get; set; }
-        private readonly PedidoRepositorio _repositorio;
-        public PedidoController(ILogger<PedidoController> log, PedidoRepositorio repositorio)
+        private readonly IPedidoRepositorio _repositorio;
+        public PedidoController(ILogger<PedidoController> log, IPedidoRepositorio repositorio)
         {
             _log = log;
             _repositorio = repositorio;

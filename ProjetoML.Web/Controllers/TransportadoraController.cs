@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjetoML.Lib.Data;
-using ProjetoML.Lib.Data.Repositorios;
+using ProjetoML.Lib.Data.Repositorios.Interfaces;
 using ProjetoML.Lib.Models;
 using ProjetoML.Web.DTOs;
 
@@ -12,8 +10,8 @@ namespace ProjetoML.Web.Controllers
     public class TransportadoraController : ControllerBase
     {
         public ILogger<TransportadoraController> _log { get; set; }
-        private readonly TransportadoraRepositorio _repositorio;
-        public TransportadoraController(ILogger<TransportadoraController> log, TransportadoraRepositorio repositorio)
+        private readonly ITransportadoraRepositorio _repositorio;
+        public TransportadoraController(ILogger<TransportadoraController> log, ITransportadoraRepositorio repositorio)
         {
             _log = log;
             _repositorio = repositorio;
